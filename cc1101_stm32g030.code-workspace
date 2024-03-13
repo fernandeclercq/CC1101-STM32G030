@@ -1,0 +1,67 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.h": "c",
+			"*.h.in": "c",
+			"*.c": "c",
+			"*.js": "javascript",
+			"system.h": "c",
+			"*.in": "c"
+		},
+		"cmake.options.statusBarVisibility": "hidden",
+		"cmake.allowCommentsInPresetsFile": true,
+		"cmake.useCMakePresets": "always",
+		"cmake.options.advanced": {
+			"configurePreset": {
+				"statusBarVisibility": "visible"
+			},
+			"build": {
+				"statusBarVisibility": "inherit",
+				"inheritDefault": "visible"
+			},
+			"launch": {
+				"statusBarVisibility": "inherit",
+				"inheritDefault": "hidden"
+			},
+			"debug": {
+				"statusBarVisibility": "inherit",
+				"inheritDefault": "hidden"
+			},
+			"launchTarget": {
+				"statusBarVisibility": "hidden"	
+			},
+			"buildTarget": {
+				"statusBarVisibility": "compact"
+			}
+		},
+		"C_Cpp.intelliSenseCacheSize": 10240,
+		"C_Cpp.intelliSenseEngine": "default",
+		"C_Cpp.intelliSenseMemoryLimit": 8196,
+		"actionButtons": {
+			"defaultColor": "#ff0034", // Can also use string color names.
+			"loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
+			"reloadButton":"♻️", // Custom reload button text or icon (default ↻). null value enables automatic reload on configuration change
+			"commands": [
+				{
+					"cwd": "${workspaceFolder}", 	// Terminal initial folder ${workspaceFolder} and os user home as defaults
+					"name": "$(triangle-right) Flash",
+					"color": "green",
+					"singleInstance": true,
+					"command": "st-flash --reset --connect-under-reset write ${workspaceFolder}/build/app/${workspaceFolderBasename}.bin 0x08000000", // This is executed in the terminal.
+				},
+				{
+					"cwd": "${workspaceFolder}", 	// Terminal initial folder ${workspaceFolder} and os user home as defaults
+					"name": "$(trash) Clean",
+					"color": "red",
+					"singleInstance": true,
+					"command": "rm -r ${workspaceFolder}/build", // This is executed in the terminal.
+				},
+			]
+		}
+	}
+}

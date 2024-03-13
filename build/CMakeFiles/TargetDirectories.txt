@@ -1,0 +1,8 @@
+/home/fernan/Documents/Github/CC1101-STM32G030/build/CMakeFiles/docs.dir
+/home/fernan/Documents/Github/CC1101-STM32G030/build/CMakeFiles/edit_cache.dir
+/home/fernan/Documents/Github/CC1101-STM32G030/build/CMakeFiles/rebuild_cache.dir
+/home/fernan/Documents/Github/CC1101-STM32G030/build/configured/CMakeFiles/edit_cache.dir
+/home/fernan/Documents/Github/CC1101-STM32G030/build/configured/CMakeFiles/rebuild_cache.dir
+/home/fernan/Documents/Github/CC1101-STM32G030/build/app/CMakeFiles/CC1101-STM32G030.dir
+/home/fernan/Documents/Github/CC1101-STM32G030/build/app/CMakeFiles/edit_cache.dir
+/home/fernan/Documents/Github/CC1101-STM32G030/build/app/CMakeFiles/rebuild_cache.dir

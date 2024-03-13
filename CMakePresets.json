@@ -1,0 +1,108 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "config-base",
+            "displayName": "FernandoPresets - GCC 10.3.1 arm-none-eabi",
+            "hidden": true,
+            "description": "Using compilers: C = /usr/bin/arm-none-eabi-gcc",
+            "binaryDir": "${sourceDir}/build/",
+            "toolchainFile": "${sourceDir}/cmake/GccArmNoneEabi.cmake",
+            "generator": "Ninja",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "ST_FLASH_PATH": "/usr/local/bin/st-flash",
+                // "ST_INFO_PATH": "${sourceDir}/tools/st-info",
+                "VSCODE_WORKSPACE_BASENAME": "${workspaceFolderBasename}",
+                "USE_FULL_LL_DRIVER": ""
+            }
+        },
+        {
+            "name": "debug",
+            "displayName": "Config Debug",
+            "inherits": "config-base",
+            "hidden": true,
+            "architecture": {
+                "value": "arm",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "debug-no-flash",
+            "inherits": "debug",
+            "displayName": "Config Debug no Flash",
+            "description": "Sets the debug build type with no flashing",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "FLASH_AFTER_BUILD": false
+            }
+        },
+        {
+            "name": "debug-flash",
+            "inherits": "debug",
+            "displayName": "Config Debug with Flash",
+            "description": "Sets the debug build type with flashing",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "FLASH_AFTER_BUILD": true
+            }
+        },
+        {
+            "name": "release-no-flash",
+            "inherits": "debug",
+            "displayName": "Config Release No Flash",
+            "description": "Sets the release build type with no flashing",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "FLASH_AFTER_BUILD": false
+            }
+        },
+        {
+            "name": "release-flash",
+            "inherits": "debug",
+            "displayName": "Config Release with Flash",
+            "description": "Sets the release build type with flashing",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "FLASH_AFTER_BUILD": true
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "build-base-no-flash",
+            "hidden": true,
+            "configurePreset": "debug-no-flash"
+        },
+        {
+            "name": "build-base-flash",
+            "hidden": true,
+            "configurePreset": "debug-flash"
+        },
+        {
+            "name": "debug-no-flash-preset",
+            "displayName": "Build Debug No Flash",
+            "inherits": "build-base-no-flash"
+        },
+        {
+            "name": "debug-flash-preset",
+            "displayName": "Build Debug With Flash",
+            "inherits": "build-base-flash"
+        },
+        {
+            "name": "release-no-flash-preset",
+            "displayName": "Build Release with Flash",
+            "inherits": "build-base-no-flash",
+            "configurePreset": "release-no-flash",
+        },
+        {
+            "name": "release-flash-preset",
+            "displayName": "Build Release no Flash",
+            "inherits": "build-base-flash",
+            "configurePreset": "release-flash"
+        }
+    ]
+}

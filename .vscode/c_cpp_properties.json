@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/build/configured_files/include",
+                "${workspaceFolder}/CubeMX/Drivers/CMSIS/Device/ST/STM32G0xx/Include/**",
+                "${workspaceFolder}/CubeMX/Drivers/CMSIS/Include/**",
+                "${workspaceFolder}/CubeMX/STM32G0xx_LL/Inc",
+                "${workspaceFolder}/Core/Inc/**",
+                "${workspaceFolder}/lib/cc1200/**"
+            ],
+            "defines": [],
+            "intelliSenseMode": "linux-clang-x64",
+            "cStandard": "c11",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}
