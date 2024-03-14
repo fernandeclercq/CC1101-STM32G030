@@ -1,0 +1,66 @@
+#ifndef CC1101_REG_H
+#define CC1101_REG_H
+
+
+#define REGISTER_SINGLE_ACCESS 0x00
+#define REGISTER_BURST_ACCESS 0x40
+
+#define REGISTER_READ_BIT 0x80
+#define REGISTER_WRITE_BIT 0x00
+
+
+
+typedef enum
+{
+    CC1101_CONFIG_REG_IOCFG2 = 0x00,    // 0x00
+    CC1101_CONFIG_REG_IOCFG1,           // 0x01
+    CC1101_CONFIG_REG_IOCFG0,           // 0x02
+    CC1101_CONFIG_REG_FIFOTHR,          // 0x03
+    CC1101_CONFIG_REG_SYNC1,            // 0x04
+    CC1101_CONFIG_REG_SYNC0,            // 0x05
+    CC1101_CONFIG_REG_PKTLEN,           // 0x06
+    CC1101_CONFIG_REG_PKTCTRL1,         // 0x07
+    CC1101_CONFIG_REG_PKTCTRL0,         // 0x08
+    CC1101_CONFIG_REG_ADDR,             // 0x09
+    CC1101_CONFIG_REG_CHANNR,           // 0x0A
+    CC1101_CONFIG_REG_FSCTRL1,          // 0x0B
+    CC1101_CONFIG_REG_FSCTRL0,          // 0x0C
+    CC1101_CONFIG_REG_FREQ2,            // 0x0D
+    CC1101_CONFIG_REG_FREQ1,            // 0x0E
+    CC1101_CONFIG_REG_FREQ0,            // 0x0F
+    CC1101_CONFIG_REG_MDMCFG4,          // 0x10
+    CC1101_CONFIG_REG_MDMCFG3,          // 0x11
+    CC1101_CONFIG_REG_MDMCFG2,          // 0x12
+    CC1101_CONFIG_REG_MDMCFG1,          // 0x13
+    CC1101_CONFIG_REG_MDMCFG0,          // 0x14
+    CC1101_CONFIG_REG_DEVIATN,          // 0x15
+    CC1101_CONFIG_REG_MCSM2,            // 0x16
+    CC1101_CONFIG_REG_MCSM1,            // 0x17
+    CC1101_CONFIG_REG_MCSM0,            // 0x18
+    CC1101_CONFIG_REG_FOCCFG,           // 0x19
+    CC1101_CONFIG_REG_BSCFG,            // 0x1A
+    CC1101_CONFIG_REG_AGCCTRL2,         // 0x1B
+    CC1101_CONFIG_REG_AGCCTRL1,         // 0x1C
+    CC1101_CONFIG_REG_AGCCTRL0,         // 0x1D
+    CC1101_CONFIG_REG_WOREVT1,          // 0x1E
+    CC1101_CONFIG_REG_WOREVT0,          // 0x1F
+    CC1101_CONFIG_REG_WORCTRL,          // 0x20
+    CC1101_CONFIG_REG_FREND1,           // 0x21
+    CC1101_CONFIG_REG_FREND0,           // 0x22
+    CC1101_CONFIG_REG_FSCAL3,           // 0x23
+    CC1101_CONFIG_REG_FSCAL2,           // 0x24
+    CC1101_CONFIG_REG_FSCAL1,           // 0x25
+    CC1101_CONFIG_REG_FSCAL0,           // 0x26
+    CC1101_CONFIG_REG_RCCTRL1,          // 0x27
+    CC1101_CONFIG_REG_RCCTRL0,          // 0x28
+    CC1101_CONFIG_REG_FSTEST,           // 0x29
+    CC1101_CONFIG_REG_PTEST,            // 0x2A
+    CC1101_CONFIG_REG_AGCTEST,          // 0x2B
+    CC1101_CONFIG_REG_TEST2,            // 0x2C
+    CC1101_CONFIG_REG_TEST1,            // 0x2D
+    CC1101_CONFIG_REG_TEST0,            // 0x2E
+}cc1101_reg_address_t;
+
+
+
+#endif /* CC1101_REG_H */

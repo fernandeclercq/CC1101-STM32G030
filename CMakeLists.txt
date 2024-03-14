@@ -67,7 +67,7 @@ set(CUBEMX_INCLUDE_DIRECTORIES
     ${CMAKE_CURRENT_SOURCE_DIR}/CubeMX/Drivers/CMSIS/Device/ST/${MCU_FAMILY}/Include
     ${CMAKE_CURRENT_SOURCE_DIR}/CubeMX/Drivers/CMSIS/Include
     ${CMAKE_CURRENT_SOURCE_DIR}/CubeMX/STM32G0xx_LL/Inc         # Add 'Inc' folder for the LL headers (STM32G0xx)
-    #${CMAKE_CURRENT_SOURCE_DIR}/lib/cc1101                 # Include header files for CC1101
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/cc1101                 # Include header files for CC1101
 )
 
     
@@ -80,7 +80,7 @@ file(GLOB_RECURSE STM32CUBEMX_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/Core/Src/*.c
     ${CMAKE_CURRENT_SOURCE_DIR}/CubeMX/Drivers/CMSIS/Device/ST/${MCU_FAMILY}/*.c # Add "Source Files" for the STM32g0x family
     ${CMAKE_CURRENT_SOURCE_DIR}/CubeMX/STM32G0xx_LL/Src/*.c     # Add "Src" folder for the LL sources (STM32G0xx)
-    #${CMAKE_CURRENT_SOURCE_DIR}/lib/*.c                 # Include header files for CC1101
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/*.c                 # Include header files for CC1101
 )
 
 file(GLOB_RECURSE PROJECT_SOURCES FOLLOW_SYMLINKS
