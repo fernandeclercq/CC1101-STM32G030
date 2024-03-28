@@ -8,13 +8,17 @@
             "description": "Using compilers: C = /usr/bin/arm-none-eabi-gcc",
             "binaryDir": "${sourceDir}/build/",
             "toolchainFile": "${sourceDir}/cmake/GccArmNoneEabi.cmake",
-            "generator": "Ninja",
+            "generator": "Unix Makefiles",
+            //"generator": "Ninja",
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
-                "ST_FLASH_PATH": "/usr/local/bin/st-flash",
-                // "ST_INFO_PATH": "${sourceDir}/tools/st-info",
                 "VSCODE_WORKSPACE_BASENAME": "${workspaceFolderBasename}",
-                "USE_FULL_LL_DRIVER": ""
+                "CONFIG_TARGET_STM32": "1",
+                "CONFIG_BUILD_TYPE" : "0",
+                "BT_DEBUG" : "1",
+                "BT_RELEASE" : "2",
+                "BT_MinSizeRel": "3",
+                "BT_RelWithDebInfo": "4"
             }
         },
         {
@@ -33,43 +37,46 @@
         {
             "name": "debug-no-flash",
             "inherits": "debug",
-            "displayName": "Config Debug no Flash",
+            "displayName": "Config Debug",
             "description": "Sets the debug build type with no flashing",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "FLASH_AFTER_BUILD": false
-            }
-        },
-        {
-            "name": "debug-flash",
-            "inherits": "debug",
-            "displayName": "Config Debug with Flash",
-            "description": "Sets the debug build type with flashing",
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "FLASH_AFTER_BUILD": true
+                "CONFIG_BUILD_TYPE_STR" : "${BT_DEBUG}"
             }
         },
         {
             "name": "release-no-flash",
             "inherits": "debug",
-            "displayName": "Config Release No Flash",
+            "displayName": "Config Release",
             "description": "Sets the release build type with no flashing",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release",
-                "FLASH_AFTER_BUILD": false
+                "CONFIG_BUILD_TYPE_STR" : "Release",
+                "CONFIG_BUILD_TYPE": "${BT_RELEASE}"
+                // RelWithDebInfo
             }
         },
         {
-            "name": "release-flash",
+            "name": "min-size-rel",
             "inherits": "debug",
-            "displayName": "Config Release with Flash",
-            "description": "Sets the release build type with flashing",
+            "displayName": "Config Min Size Rel",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "FLASH_AFTER_BUILD": true
+                "CMAKE_BUILD_TYPE": "MinSizeRel",
+                "CONFIG_BUILD_TYPE_STR" : "MinSizeRel",
+                "CONFIG_BUILD_TYPE": "${BT_MinSizeRel}"
             }
-        }
+        },
+        {
+            "name": "rel-with-deb-info",
+            "inherits": "debug",
+            "displayName": "Config Release w/ Debug Info",
+            "description": "Sets the build type to Release with debug info",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+                "CONFIG_BUILD_TYPE_STR" : "RelWithDebInfo",
+                "CONFIG_BUILD_TYPE": "${BT_RelWithDebInfo}"
+            }
+        },
     ],
     "buildPresets": [
         {
@@ -78,31 +85,15 @@
             "configurePreset": "debug-no-flash"
         },
         {
-            "name": "build-base-flash",
-            "hidden": true,
-            "configurePreset": "debug-flash"
-        },
-        {
             "name": "debug-no-flash-preset",
             "displayName": "Build Debug No Flash",
             "inherits": "build-base-no-flash"
         },
         {
-            "name": "debug-flash-preset",
-            "displayName": "Build Debug With Flash",
-            "inherits": "build-base-flash"
-        },
-        {
             "name": "release-no-flash-preset",
             "displayName": "Build Release with Flash",
             "inherits": "build-base-no-flash",
-            "configurePreset": "release-no-flash",
-        },
-        {
-            "name": "release-flash-preset",
-            "displayName": "Build Release no Flash",
-            "inherits": "build-base-flash",
-            "configurePreset": "release-flash"
+            "configurePreset": "release-no-flash"
         }
     ]
 }

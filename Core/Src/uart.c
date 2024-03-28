@@ -1,6 +1,6 @@
 /**
  * @file uart.c
- * @author your name (you@domain.com)
+ * @author Fernando Declercq
  * @brief 
  * @version 0.1
  * @date 2024-01-02
@@ -12,17 +12,25 @@
 
 #include "uart.h"
 
-void UART1_write(int ch);
+
 
 
 int __io_putchar(int ch)
 {
 	//uart1_write(ch);
-  UART1_write(ch);
+  UART1_send_byte((uint8_t)ch);
 	return ch;
 }
 
-void UART1_write(int ch)
+void UART1_send_bytes(const uint8_t * buffer, size_t len)
+{
+  for (size_t i = 0; i < len; i++)
+  {
+    UART1_send_byte(buffer[i]);
+  }
+}
+
+void UART1_send_byte(uint8_t ch)
 {
   
   while(!(LL_USART_IsActiveFlag_TXE_TXFNF(USART1))){}
@@ -97,4 +105,70 @@ void UART1_Init(void)
   /* USER CODE BEGIN USART1_Init 2 */
 
   /* USER CODE END USART1_Init 2 */
+}
+
+
+void UART1_RXNE_IT_Init(void)
+{
+	__disable_irq();
+	LL_USART_Disable(USART1);
+
+	LL_USART_EnableIT_RXNE_RXFNE(USART1);
+
+  LL_USART_DisableIT_IDLE(USART1);
+
+	NVIC_EnableIRQ(USART1_IRQn);
+
+	LL_USART_Enable(USART1);
+
+	/* Polling USART1 initialisation */
+	while ((!(LL_USART_IsActiveFlag_TEACK(USART1))) || (!(LL_USART_IsActiveFlag_REACK(USART1))))
+	{
+	}
+	__enable_irq();
+}
+
+
+void UART1_RX_IT_IDLE(void)
+{
+	__disable_irq();
+	LL_USART_Disable(USART1);
+
+	LL_USART_EnableIT_IDLE(USART1);
+
+	NVIC_EnableIRQ(USART1_IRQn);
+
+	LL_USART_Enable(USART1);
+
+	/* Polling USART1 initialisation */
+	while ((!(LL_USART_IsActiveFlag_TEACK(USART1))) || (!(LL_USART_IsActiveFlag_REACK(USART1))))
+	{
+	}
+	__enable_irq();
+}
+
+void UART1_RX_IT_CM(char char_to_match)
+{
+	__disable_irq();
+	LL_USART_Disable(USART1);
+
+	LL_USART_DisableDirectionRx(USART1);
+
+	//LL_USART_EnableIT_IDLE(USART1);
+
+	USART1->CR2 |= (uint32_t)(char_to_match << 24);
+
+	USART1->CR2 |= (1U<<4U);
+
+	NVIC_EnableIRQ(USART1_IRQn);
+
+	LL_USART_EnableDirectionRx(USART1);
+
+	LL_USART_Enable(USART1);
+
+	/* Polling USART1 initialisation */
+	while ((!(LL_USART_IsActiveFlag_TEACK(USART1))) || (!(LL_USART_IsActiveFlag_REACK(USART1))))
+	{
+	}
+	__enable_irq();
 }

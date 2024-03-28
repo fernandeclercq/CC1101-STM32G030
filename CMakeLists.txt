@@ -11,6 +11,11 @@ include(GccArmNoneEabi)
 # Include Doxygen
 include(Docs)
 
+include(BuildType)
+
+# Sets the build type variable used for the 'config.h' header
+get_build_type(CONFIG_BUILD_TYPE)
+
 message(${VSCODE_WORKSPACE_BASENAME})
 
 # ##############################################################################

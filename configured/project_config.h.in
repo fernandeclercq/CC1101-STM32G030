@@ -23,4 +23,32 @@
 #define CONFIG_TARGET_STM32     "@CONFIG_TARGET_STM32@"
 
 
+#define CONFIG_BUILD_TYPE           @CONFIG_BUILD_TYPE@
+#define CONFIG_BUILD_TYPE_STR       "@CONFIG_BUILD_TYPE_STR@"
+#define PROJECT_BUILD_TYPE_Debug            @BT_DEBUG@
+#define PROJECT_BUILD_TYPE_Release          @BT_RELEASE@
+#define PROJECT_BUILD_TYPE_MinSizeRel       @BT_MinSizeRel@
+#define PROJECT_BUILD_TYPE_RelWithDebInfo   @BT_RelWithDebInfo@
+
+
+#if defined(CONFIG_BUILD_TYPE)
+    #if CONFIG_BUILD_TYPE == PROJECT_BUILD_TYPE_Debug
+        #include <stdio.h>
+        #include <string.h>
+        /* __FILE__ define contains the absolute path to the file. __FILENAME__ only contains the name of the file. */
+        #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__) 
+
+        #define LOG_DEBUG( format, ...)                                             \
+            printf("DEBUG - ");                                              \
+            /* Retrieve the filename where the "LOG_DEBUG" macro is called */       \
+            printf("%s: ", __FILENAME__);                                           \
+            printf(format, ##__VA_ARGS__);                                          \
+            //printf("\n");              
+    #else
+        #define LOG_DEBUG( format, ...)
+    #endif
+#endif      
+
+
+
 #endif

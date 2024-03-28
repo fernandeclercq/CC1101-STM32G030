@@ -1,5 +1,9 @@
 #include "spi.h"
 
+volatile uint8_t time_out = 0;
+volatile uint8_t temp = 0;
+
+
 // PA1 SPI1_SCK     (PIN 8)
 // PA2 SPI1_MOSI    (PIN 9)
 // PA6 SPI1_MISO    (PIN 13)
@@ -7,33 +11,39 @@
 
 
 
-void spi1_gpio_init(void)
+void spi1_init(void)
 {
-    // Configure SPI Pins
-    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
+    time_out = 0;
+    /******************************************************************************/
+    /*************************** GPIO Configuration *******************************/
 
+    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_1, LL_GPIO_MODE_ALTERNATE); // SCK
     LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_1, LL_GPIO_AF_0);
     LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_1, LL_GPIO_SPEED_FREQ_HIGH);
 
+    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_2, LL_GPIO_MODE_ALTERNATE); // MOSI
     LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_2, LL_GPIO_AF_0);
     LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_2, LL_GPIO_SPEED_FREQ_HIGH);
 
+    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_6, LL_GPIO_MODE_ALTERNATE); // MISO
     LL_GPIO_SetAFPin_0_7(GPIOA, LL_GPIO_PIN_6, LL_GPIO_AF_0);
     LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_6, LL_GPIO_SPEED_FREQ_HIGH);
 
+    LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
     LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_4, LL_GPIO_MODE_OUTPUT); // CS as output
     LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_4);
     LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_4, LL_GPIO_SPEED_FREQ_HIGH);
-}
 
-void spi1_config_init(void)
-{
+    /******************************************************************************/
+
+    /**************************** SPI Configuration *******************************/
+
     // Enable Clock for SPI1 Peripheral
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SPI1);
-    // Set the Clock for the SPI (4MHz)
+    // Set the Clock for the SPI (8MHz)
     LL_SPI_SetBaudRatePrescaler(SPI1, LL_SPI_BAUDRATEPRESCALER_DIV2);
 
     // Set the clock polarity and phase polarity (Mode 0)
@@ -59,62 +69,71 @@ void spi1_config_init(void)
     LL_SPI_DisableDMAReq_RX(SPI1);
     LL_SPI_DisableDMAReq_TX(SPI1);
 
-    // SPI1->CR1 |=    (1U << 9);
-    // SPI1->CR1 |=    (1U << 8);
-
-
     LL_SPI_SetStandard(SPI1, LL_SPI_PROTOCOL_MOTOROLA);
 
     LL_SPI_DisableCRC(SPI1);
     
-
     LL_SPI_Enable(SPI1);
 
+    delay_ms(1);
+
+    // while(!(LL_SPI_IsEnabled(SPI1)))
+    // { 
+    //     // Time out after 200ms
+    //     if(time_out > 200)
+    //     {
+    //         return CC120X_ERROR;
+    //     }
+    //     time_out++;
+    //     delay_ms(1);
+    // }
+    // /******************************************************************************/
+
+    // return CC120X_OK;
 }
+
 
 void spi1_transmit_bytes(uint8_t * data, uint32_t size)
 {
-    uint32_t i = 0;
-    volatile uint8_t temp = 0;
-
-    while(i < size)
+    
+    uint32_t counter = 0;
+    for(counter = 0; counter < size; counter++)
     {
-        // Wait until the Transmit Buffer is Empty
-        while(!(LL_SPI_IsActiveFlag_TXE(SPI1))){}
-
-        // When there is space in the buffer, write the data to the register
-        LL_SPI_TransmitData8(SPI1, data[i]);
-
-        // Increment the counter
-        i++;
-
-        /* Wait for the TXE again to be set */
-        while(!(LL_SPI_IsActiveFlag_TXE(SPI1))){}
-
-        /* Wait for BUSY flag to reset */
-        while(LL_SPI_IsActiveFlag_BSY(SPI1)){}
-
-        /* Clear OVR flag */
-        temp = LL_SPI_ReceiveData8(SPI1);
-        temp = SPI1->SR;
+        spi1_transmit_byte(data[counter]);
     }
 
-    // /* Wait for the TXE again to be set */
-    // while(!(LL_SPI_IsActiveFlag_TXE(SPI1))){}
+    // return CC120X_OK;
+}
 
-    // /* Wait for BUSY flag to reset */
-    // while(LL_SPI_IsActiveFlag_BSY(SPI1)){}
+void spi1_receive_bytes(uint8_t * data, uint32_t size)
+{
+    uint32_t counter = 0;
+    for(counter = 0; counter < size; counter++)
+    {
+        spi1_receive_byte(&data[counter]);
+    }
 
-    // /* Clear OVR flag */
-    // temp = LL_SPI_ReceiveData8(SPI1);
-    // temp = SPI1->SR;
-    
-   
+    // return CC120X_OK;
+}
+
+void spi1_receive_byte(uint8_t * data)
+{
+
+    // Send dummy data
+    LL_SPI_TransmitData8(SPI1, 0x00);
+
+    /* Wait for the RXNE to be set*/
+    while((LL_SPI_IsActiveFlag_RXNE(SPI1))){}
+
+    /* Read received data */
+    *data = LL_SPI_ReceiveData8(SPI1);
+
+    // return CC120X_OK;
 }
 
 void spi1_transmit_byte(uint8_t data)
 {   
-    volatile uint8_t temp = 0;
+    temp = 0;
 
     // Wait until the Transmit Buffer is Empty
     while(!(LL_SPI_IsActiveFlag_TXE(SPI1))){}
@@ -130,46 +149,35 @@ void spi1_transmit_byte(uint8_t data)
 
     /* Clear OVR flag */
     temp = LL_SPI_ReceiveData8(SPI1);
-    //printf("clearing ovr: %02hx\n", temp);
-    temp = SPI1->SR;
+    temp = (uint8_t)SPI1->SR;
 
+    // return CC120X_OK;
 }
 
-
-void spi1_receive_bytes(uint8_t * data, uint32_t size)
+void spi1_wait_miso(void)
 {
-    
-    while(size)
+    time_out = 0;
+    /* Wait the SPI MISO to go low (CC1200 Ready for SPI Transfer) */
+    while((LL_GPIO_IsInputPinSet(GPIOA, LL_GPIO_PIN_6)))
     {
-        // Send dummy data
-        LL_SPI_TransmitData8(SPI1, 0x00);
-
-        /* Wait for the RXNE to be set*/
-        while((LL_SPI_IsActiveFlag_RXNE(SPI1))){}
-
-        /* Read received data */
-        *data++ = LL_SPI_ReceiveData8(SPI1);
-
-        /* Decrement counter "size" */
-        size--;
+        // Time out after 200ms
+        if(time_out > 200)
+        {
+            return;
+        }
+        time_out++;
+        delay_ms(1);
     }
+
 }
 
-void spi1_receive_byte(uint8_t * data)
+void spi1_cs_enable(void)
 {
+    LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_4);
 
-    // Send dummy data
-    LL_SPI_TransmitData8(SPI1, 0x00);
-
-    /* Wait for the RXNE to be set*/
-    while((LL_SPI_IsActiveFlag_RXNE(SPI1))){}
-
-    /* Read received data */
-    *data = LL_SPI_ReceiveData8(SPI1);
 }
 
-
-
-
-
-
+void spi1_cs_disable(void)
+{
+    LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_4);
+}
