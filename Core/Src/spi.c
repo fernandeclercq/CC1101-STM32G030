@@ -77,19 +77,6 @@ void spi1_init(void)
 
     delay_ms(1);
 
-    // while(!(LL_SPI_IsEnabled(SPI1)))
-    // { 
-    //     // Time out after 200ms
-    //     if(time_out > 200)
-    //     {
-    //         return CC120X_ERROR;
-    //     }
-    //     time_out++;
-    //     delay_ms(1);
-    // }
-    // /******************************************************************************/
-
-    // return CC120X_OK;
 }
 
 
@@ -102,7 +89,6 @@ void spi1_transmit_bytes(uint8_t * data, uint32_t size)
         spi1_transmit_byte(data[counter]);
     }
 
-    // return CC120X_OK;
 }
 
 void spi1_receive_bytes(uint8_t * data, uint32_t size)
@@ -113,7 +99,6 @@ void spi1_receive_bytes(uint8_t * data, uint32_t size)
         spi1_receive_byte(&data[counter]);
     }
 
-    // return CC120X_OK;
 }
 
 void spi1_receive_byte(uint8_t * data)
@@ -128,7 +113,6 @@ void spi1_receive_byte(uint8_t * data)
     /* Read received data */
     *data = LL_SPI_ReceiveData8(SPI1);
 
-    // return CC120X_OK;
 }
 
 void spi1_transmit_byte(uint8_t data)
@@ -151,7 +135,6 @@ void spi1_transmit_byte(uint8_t data)
     temp = LL_SPI_ReceiveData8(SPI1);
     temp = (uint8_t)SPI1->SR;
 
-    // return CC120X_OK;
 }
 
 void spi1_wait_miso(void)

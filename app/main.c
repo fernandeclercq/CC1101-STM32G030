@@ -12,6 +12,9 @@
 #include "system.h"
 #include "uart.h"
 #include "cc1101.h"
+#include "spi.h"
+
+cc1101_handle_t cc1101_handle;
 
 
 void SysTick_Handler(void);
@@ -30,6 +33,14 @@ int main(void)
     LL_SYSTICK_EnableIT();
 
     LOG_DEBUG("System Restart\n");
+
+
+    cc1101_handle.delay_ms = delay_ms;
+    cc1101_handle.spi_read_byte = spi1_receive_byte;
+    cc1101_handle.spi_write_byte = spi1_transmit_byte;
+
+
+    cc1101_init(&cc1101_handle);
 
     while (1)
     {
