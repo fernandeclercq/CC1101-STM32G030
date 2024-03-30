@@ -23,6 +23,9 @@ void SysTick_Handler(void);
 uint32_t timestamp = 0;
 uint32_t time_passed = 0;
 
+
+#include <assert.h>
+
 int main(void)
 {
 
@@ -38,7 +41,6 @@ int main(void)
     cc1101_handle.delay_ms = delay_ms;
     cc1101_handle.spi_read_byte = spi1_receive_byte;
     cc1101_handle.spi_write_byte = spi1_transmit_byte;
-
 
     cc1101_init(&cc1101_handle);
 

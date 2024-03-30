@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include "cc1101_reg.h"
 
 typedef enum
 {   
@@ -14,8 +15,155 @@ typedef enum
 
 typedef enum
 {
-    CC1101_REG_IOCFG2 = 0,
-}cc1101_reg_t;
+    CC1101_REG_TYPE_CONFIG = 0x00U,
+    CC1101_REG_TYPE_STATUS,
+    CC1101_REG_TYPE_STROBE_CMD,
+    CC1101_REG_TYPE_FIFO,
+    CC1101_REG_TYPE_PATABLE,
+    CC1101_REG_TYPE_MARKER,
+}cc1101_reg_type_t;
+
+typedef enum
+{
+    CC1101_REG_ACCESS_TYPE_UNKNOWN = 0x00U,
+    CC1101_REG_ACCESS_TYPE_READ_ONLY,
+    CC1101_REG_ACCESS_TYPE_WRITE_ONLY,
+    CC1101_REG_ACCESS_TYPE_READ_WRITE,
+    CC1101_REG_ACCESS_TYPE_READ_MOD_WRITE,
+}cc1101_reg_access_type_t;
+
+
+typedef struct
+{
+    uint8_t                     reg_addr;
+    cc1101_reg_type_t           reg_type;
+    cc1101_reg_access_type_t    reg_access_type;
+}cc1101_trans_reg_t;
+
+
+typedef enum
+{
+    _FIRST_ELEMENT,
+
+    CC1101_REG_IOCFG2,
+    CC1101_REG_IOCFG1,
+    CC1101_REG_IOCFG0,
+
+    CC1101_REG_FIFOTHR,
+
+    CC1101_REG_SYNC1,
+    CC1101_REG_SYNC0,
+    CC1101_REG_PKTLEN,
+
+    CC1101_REG_PKTCTRL1,
+    CC1101_REG_PKTCTRL0,
+
+    CC1101_REG_ADDR,
+    CC1101_REG_CHANNR,
+
+    CC1101_REG_FSCTRL1,
+
+    CC1101_REG_FSCTRL0,
+
+    CC1101_REG_FREQ2,
+
+    CC1101_REG_FREQ1,
+    CC1101_REG_FREQ0,
+    CC1101_REG_MDMCFG4,
+    CC1101_REG_MDMCFG3,
+    CC1101_REG_MDMCFG2,
+
+    CC1101_REG_MDMCFG1,
+
+    CC1101_REG_MDMCFG0,
+
+    CC1101_REG_DEVIATN,
+
+    CC1101_REG_MCSM2,
+
+    CC1101_REG_MCSM1,
+
+    CC1101_REG_MCSM0,
+
+    CC1101_REG_FOCCFG,
+
+    CC1101_REG_BSCFG,
+    CC1101_REG_AGCCTRL2,
+
+    CC1101_REG_AGCCTRL1,
+
+    CC1101_REG_AGCCTRL0,
+    CC1101_REG_WOREVT1,
+    CC1101_REG_WOREVT0,
+
+    CC1101_REG_WORCTRL,
+
+    CC1101_REG_FREND1,
+
+    CC1101_REG_FREND0,
+
+    CC1101_REG_FSCAL3,
+
+    CC1101_REG_FSCAL2,
+
+    CC1101_REG_FSCAL1,
+    
+    CC1101_REG_FSCAL0,
+
+    CC1101_REG_RCCTRL1,
+
+    CC1101_REG_RCCTRL0,
+
+    CC1101_REG_FSTEST,
+    CC1101_REG_PTEST,
+    CC1101_REG_AGCTEST,
+    CC1101_REG_TEST2,
+    CC1101_REG_TEST1,
+    CC1101_REG_TEST0,
+
+    /**************************** Strobe Commands ******************************/
+    CC1101_REG_SRES,
+    CC1101_REG_SFSTXON,
+    CC1101_REG_SXOFF,
+    CC1101_REG_SCAL,
+    CC1101_REG_SRX,
+    CC1101_REG_STX,
+    CC1101_REG_SIDLE,
+    CC1101_REG_SWOR,
+    CC1101_REG_SPWD,
+    CC1101_REG_SFRX,
+    CC1101_REG_SFTX,
+    CC1101_REG_SWORRST,
+    CC1101_REG_SNOP,
+    /************************************************************************/
+    CC1101_REG_PATABLE,
+    /************************** TX FIFO - Write Only ************************/
+    CC1101_REG_TXFIFO,
+    /************************** RX FIFO - Read Only ************************/
+    CC1101_REG_RXFIFO,
+    /**************************** Status Registers ******************************/
+    CC1101_REG_PARTNUM,
+    CC1101_REG_VERSION,
+    CC1101_REG_FREQEST,
+    CC1101_REG_LQI,
+    CC1101_REG_RSSI,
+    CC1101_REG_MARCSTATE,
+    CC1101_REG_WORTIME1,
+    CC1101_REG_WORTIME0,
+    CC1101_REG_PKTSTATUS,
+    CC1101_REG_VCO_VC_DAC,
+    CC1101_REG_TXBYTES,
+    CC1101_REG_RXBYTES,
+    CC1101_REG_RCCTRL1_STATUS,
+    CC1101_REG_RCCTRL0_STATUS,
+    /************************************************************************/
+
+    _LAST_ELEMENT,
+}cc1101_reg_idx_t;
+
+
+extern const cc1101_trans_reg_t translation_regs[];
+
 
 typedef union //cc1101_status_byte_u
 {

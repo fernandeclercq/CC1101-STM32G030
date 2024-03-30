@@ -2,8 +2,8 @@
 
 cc1101_handle_t * _cc1101_handle;
 
-cc1101_err_t cc1101_write_reg(cc1101_reg_t reg_idx, size_t len, uint8_t * data);
-cc1101_err_t cc1101_read_reg(cc1101_reg_t reg_idx, size_t len, uint8_t * data);
+cc1101_err_t cc1101_write_reg(cc1101_reg_idx_t reg_idx, size_t len, uint8_t * data);
+cc1101_err_t cc1101_read_reg(cc1101_reg_idx_t reg_idx, size_t len, uint8_t * data);
 
 cc1101_err_t cc1101_init(cc1101_handle_t * handle)
 {
@@ -13,7 +13,7 @@ cc1101_err_t cc1101_init(cc1101_handle_t * handle)
 }
 
 
-cc1101_err_t cc1101_write_reg(cc1101_reg_t reg_idx, size_t len, uint8_t * data)
+cc1101_err_t cc1101_write_reg(cc1101_reg_idx_t reg_idx, size_t len, uint8_t * data)
 {
     cc1101_err_t ret = CC1101_ERROR;
 
@@ -23,7 +23,7 @@ cc1101_err_t cc1101_write_reg(cc1101_reg_t reg_idx, size_t len, uint8_t * data)
 }
 
 
-cc1101_err_t cc1101_read_reg(cc1101_reg_t reg_idx, size_t len, uint8_t * data)
+cc1101_err_t cc1101_read_reg(cc1101_reg_idx_t reg_idx, size_t len, uint8_t * data)
 {
     cc1101_err_t ret = CC1101_ERROR;
 
