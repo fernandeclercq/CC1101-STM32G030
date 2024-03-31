@@ -6,12 +6,17 @@
 	],
 	"settings": {
 		"files.associations": {
+			"*.c": "c",
 			"*.h": "c",
 			"*.h.in": "c",
-			"*.c": "c",
 			"*.js": "javascript",
 			"system.h": "c",
-			"*.in": "c"
+			"*.in": "c",
+			"array": "c",
+			"string_view": "c",
+			"initializer_list": "c",
+			"ranges": "c",
+			"utility": "c"
 		},
 		"cmake.options.statusBarVisibility": "hidden",
 		"cmake.allowCommentsInPresetsFile": true,

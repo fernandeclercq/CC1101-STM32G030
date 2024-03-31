@@ -1,6 +1,9 @@
 #ifndef CC1101_REG_H
 #define CC1101_REG_H
 
+#include <stdint.h>
+#include <stddef.h>
+
 
 #define CC1101_REGISTER_SINGLE_ACCESS 0x00
 #define CC1101_REGISTER_BURST_ACCESS 0x40
@@ -150,6 +153,56 @@ typedef enum
     
 
 }cc1101_gdox_cfg_t;
+
+
+typedef union //cc1101_iocfg2_u
+{
+    struct //cc1101_iocfg2_s
+    {
+        cc1101_gdox_cfg_t		GDO2_CFG			:6;
+        uint8_t		            GDO2_INV			:1;
+        uint8_t		            NOT_USED_2			:1;
+    }fields;
+    uint8_t data;
+}cc1101_iocfg2_t;
+
+
+typedef union //cc1101_iocfg1_u
+{
+    struct //cc1101_iocfg1_s
+    {
+        cc1101_gdox_cfg_t		GDO1_CFG			:6;
+        uint8_t		            GDO1_INV			:1;
+        uint8_t		            GDO_DS			    :1;
+    }fields;
+    uint8_t data;
+}cc1101_iocfg1_t;
+
+
+typedef union //cc1101_iocfg0_u
+{
+    struct //cc1101_iocfg0_s
+    {
+        cc1101_gdox_cfg_t		GDO0_CFG			:6;
+        uint8_t		            GDO0_INV			:1;
+        uint8_t		            TEMP_SENSOR_ENABLE			:1;
+    }fields;
+    uint8_t data;
+}cc1101_iocfg0_t;
+
+
+/**************************************************************************/
+/**************************************************************************/
+
+
+typedef struct 
+{
+    cc1101_iocfg2_t     iocfg2;
+    cc1101_iocfg1_t     iocfg1;
+    cc1101_iocfg0_t     iocfg0;
+
+}cc1101_registers_definitions_t;
+
 
 
 

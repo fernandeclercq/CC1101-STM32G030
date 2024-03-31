@@ -123,30 +123,3 @@ add_custom_command(TARGET ${EXECUTABLE} POST_BUILD
     ${EXECUTABLE}.bin)
 
 
-# message("${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.bin")
-
-# message(${FLASH_AFTER_BUILD})
-
-## Flash with CMAKE after building
-if(${FLASH_AFTER_BUILD})
-
-message("Flashing with ST-FLASH tool after build...")
-
-set(ST_FLASH_FLAGS 
-    "--reset"
-    "--connect-under-reset"
-)
-
-set(ST_FLASH_COMMAND
-    "write"
-)
-
-add_custom_command(TARGET ${EXECUTABLE}
-    USES_TERMINAL
-    #COMMAND st-flash --reset --connect-under-reset write "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.bin" 0x08000000
-    COMMAND ${ST_FLASH_PATH} ${ST_FLASH_FLAGS} ${ST_FLASH_COMMAND} "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.bin" 0x08000000
-)
-else()
-message("No Flashing after building...")
-endif()
-

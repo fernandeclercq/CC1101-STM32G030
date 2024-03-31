@@ -14,7 +14,7 @@
 #include "cc1101.h"
 #include "spi.h"
 
-cc1101_handle_t cc1101_handle;
+//cc1101_handle_t  * cc1101_handle;
 
 
 void SysTick_Handler(void);
@@ -37,16 +37,15 @@ int main(void)
 
     LOG_DEBUG("System Restart\n");
 
+    spi1_init();
 
-    cc1101_handle.delay_ms = delay_ms;
-    cc1101_handle.spi_read_byte = spi1_receive_byte;
-    cc1101_handle.spi_write_byte = spi1_transmit_byte;
+    cc1101_init(spi1_receive_byte, spi1_transmit_byte, delay_ms, spi1_cs_enable, spi1_cs_disable, spi1_read_miso);
 
-    cc1101_init(&cc1101_handle);
 
     while (1)
     {
         LOG_DEBUG("Hello World\n");
+        read_test();
         delay_ms(500);
     }
 }

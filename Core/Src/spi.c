@@ -79,28 +79,6 @@ void spi1_init(void)
 
 }
 
-
-void spi1_transmit_bytes(uint8_t * data, uint32_t size)
-{
-    
-    uint32_t counter = 0;
-    for(counter = 0; counter < size; counter++)
-    {
-        spi1_transmit_byte(data[counter]);
-    }
-
-}
-
-void spi1_receive_bytes(uint8_t * data, uint32_t size)
-{
-    uint32_t counter = 0;
-    for(counter = 0; counter < size; counter++)
-    {
-        spi1_receive_byte(&data[counter]);
-    }
-
-}
-
 void spi1_receive_byte(uint8_t * data)
 {
 
@@ -137,21 +115,10 @@ void spi1_transmit_byte(uint8_t data)
 
 }
 
-void spi1_wait_miso(void)
+uint8_t spi1_read_miso(void)
 {
-    time_out = 0;
-    /* Wait the SPI MISO to go low (CC1200 Ready for SPI Transfer) */
-    while((LL_GPIO_IsInputPinSet(GPIOA, LL_GPIO_PIN_6)))
-    {
-        // Time out after 200ms
-        if(time_out > 200)
-        {
-            return;
-        }
-        time_out++;
-        delay_ms(1);
-    }
-
+    /* Read miso pin */
+    return (LL_GPIO_IsInputPinSet(GPIOA, LL_GPIO_PIN_6));
 }
 
 void spi1_cs_enable(void)

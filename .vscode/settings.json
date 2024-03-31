@@ -145,12 +145,7 @@
     "C_Cpp.intelliSenseMemoryLimit": 8024,
     "C_Cpp.intelliSenseCacheSize": 10200,
     "C_Cpp.default.cStandard": "c11",
-    "C_Cpp.default.cppStandard": "c++11",
     "C_Cpp.intelliSenseEngine": "default",
     "editor.fontSize": 16,
-    "files.associations": {
-        "uart.h": "c",
-        "system.h": "c"
-    },
     "C_Cpp.default.compilerPath": "/usr/bin/arm-none-eabi-gcc",
 }

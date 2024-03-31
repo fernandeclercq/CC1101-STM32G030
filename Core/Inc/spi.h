@@ -19,7 +19,7 @@ void spi1_transmit_bytes(uint8_t * data, uint32_t size);
 void spi1_receive_bytes(uint8_t * data, uint32_t size);
 void spi1_receive_byte(uint8_t * data);
 void spi1_transmit_byte(uint8_t data);
-void spi1_wait_miso(void);
+uint8_t spi1_read_miso(void);
 void spi1_cs_enable(void);
 void spi1_cs_disable(void);
 

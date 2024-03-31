@@ -9,10 +9,9 @@
                 "${workspaceFolder}/CubeMX/Drivers/CMSIS/Include/**",
                 "${workspaceFolder}/CubeMX/STM32G0xx_LL/Inc",
                 "${workspaceFolder}/Core/Inc/**",
-                "${workspaceFolder}/lib/cc1200/**"
+                "${workspaceFolder}/lib/cc1101/**"
             ],
             "defines": [],
-            "intelliSenseMode": "linux-clang-x64",
             "cStandard": "c11",
             "compileCommands": "${workspaceFolder}/build/compile_commands.json"
         }

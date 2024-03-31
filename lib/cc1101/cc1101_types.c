@@ -1,6 +1,6 @@
 #include "cc1101_types.h"
 
-
+extern cc1101_registers_definitions_t _cc1101_registers_def;
 
 typedef enum
 {
@@ -89,9 +89,10 @@ typedef enum
 }cc1101_reg_address_t;
 
 
+
 const cc1101_trans_reg_t translation_regs[]  =   {
     { .reg_addr = 0xFF, .reg_type = CC1101_REG_TYPE_MARKER, .reg_access_type = CC1101_REG_ACCESS_TYPE_UNKNOWN },
-    { .reg_addr = CC1101_INTERNAL_REG_ADDRESS_IOCFG2, .reg_type = CC1101_REG_TYPE_CONFIG, .reg_access_type = CC1101_REG_ACCESS_TYPE_READ_WRITE },
+    { .reg_struct = &_cc1101_registers_def.iocfg2, .reg_addr = CC1101_INTERNAL_REG_ADDRESS_IOCFG2, .reg_type = CC1101_REG_TYPE_CONFIG, .reg_access_type = CC1101_REG_ACCESS_TYPE_READ_WRITE },
     { .reg_addr = CC1101_INTERNAL_REG_ADDRESS_IOCFG1, .reg_type = CC1101_REG_TYPE_CONFIG, .reg_access_type = CC1101_REG_ACCESS_TYPE_READ_WRITE },
     { .reg_addr = CC1101_INTERNAL_REG_ADDRESS_IOCFG0, .reg_type = CC1101_REG_TYPE_CONFIG, .reg_access_type = CC1101_REG_ACCESS_TYPE_READ_WRITE },
 

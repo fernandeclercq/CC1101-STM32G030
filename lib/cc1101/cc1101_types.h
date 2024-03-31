@@ -7,7 +7,8 @@
 
 typedef enum
 {   
-    CC1101_ERROR = -10,
+    CC1101_ERROR = -20,
+    CC1101_ERROR_MISO_NOT_LOW,
 
     CC1101_OK = 0,
 }cc1101_err_t;
@@ -35,6 +36,7 @@ typedef enum
 
 typedef struct
 {
+    void            *           reg_struct;
     uint8_t                     reg_addr;
     cc1101_reg_type_t           reg_type;
     cc1101_reg_access_type_t    reg_access_type;
@@ -43,7 +45,7 @@ typedef struct
 
 typedef enum
 {
-    _FIRST_ELEMENT,
+    _CC1101_FIRST_ELEMENT,
 
     CC1101_REG_IOCFG2,
     CC1101_REG_IOCFG1,
@@ -158,9 +160,8 @@ typedef enum
     CC1101_REG_RCCTRL0_STATUS,
     /************************************************************************/
 
-    _LAST_ELEMENT,
+    _CC1101_LAST_ELEMENT,
 }cc1101_reg_idx_t;
-
 
 extern const cc1101_trans_reg_t translation_regs[];
 
@@ -177,19 +178,72 @@ typedef union //cc1101_status_byte_u
 }cc1101_status_byte_t;
 
 
+/**************************************************************************/
+
 
 typedef void (*cc1101_spi_read_p)(uint8_t * data);
 typedef void (*cc1101_spi_write_p)(uint8_t data);
+typedef void (*cc1101_spi_read_bytes_p)(uint8_t * data, size_t len);
+typedef void (*cc1101_spi_write_bytes_p)(uint8_t * data, size_t len);
 typedef void (*cc1101_delay_ms_p)(uint32_t delay_ms);
+typedef void (*cc1101_cs_enable_disable_p)(void);
+typedef uint8_t (*cc1101_read_miso_p)(void);
 
 
 typedef struct
 {
+    /**
+     * @brief SPI Read Byte | Signature: (uint8_t * data)
+     * @param[out] data Pointer to the byte;
+     */
     cc1101_spi_read_p        spi_read_byte;
+    /**
+     * @brief SPI Write Byte | Signature: (uint8_t data)
+     * @param[in] data Single byte of type uint8_t
+     */
     cc1101_spi_write_p        spi_write_byte;
+
+    /**
+     * @brief SPI Multiple Byte Read | Signature: (uint8_t * data, size_t len);
+     * @param[out] data A pointer to the receive buffer.
+     * @param[in] len A value representing the length of bytes to read.
+     */
+    cc1101_spi_read_bytes_p     spi_read_bytes;
+
+    /**
+     * @brief SPI Multiple Byte Write | Signature: (uint8_t * data, size_t len);
+     * @param[in] data A pointer to the transmit buffer.
+     * @param[in] len A value representing the length of bytes to write.
+     */
+    cc1101_spi_write_bytes_p    spi_write_bytes;
+
+    /**
+     * @brief Delay milliseconds(blocking)
+     * @param[in] delay_ms A Value for the delay in milliseconds
+     */
     cc1101_delay_ms_p               delay_ms;
 
+    /**
+     * @brief Enables the Chip Select Line (Pulls the CS Line LOW)
+     * 
+     */
+    cc1101_cs_enable_disable_p      cs_enable;
+
+    /**
+     * @brief Disables the Chip Select Line (Pulls the CS Line HIGH)
+     * 
+     */
+    cc1101_cs_enable_disable_p      cs_disable;
+
+    /**
+     * @brief Read the MISO gpio
+     * 
+     */
+    cc1101_read_miso_p              read_miso;
+
 }cc1101_handle_t;
+
+/**************************************************************************/
 
 
 #endif /* CC1101_TYPES_H */
