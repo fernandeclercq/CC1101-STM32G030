@@ -24,8 +24,6 @@ uint32_t timestamp = 0;
 uint32_t time_passed = 0;
 
 
-#include <assert.h>
-
 int main(void)
 {
 

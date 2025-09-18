@@ -45,7 +45,7 @@ cc1101_err_t read_test(void)
 
     uint8_t iocfg2 = 0;
 
-    ret = cc1101_read_reg(CC1101_REG_IOCFG2, 1, &iocfg2);
+    ret = cc1101_read_reg(CC1101_REG_FIFOTHR, 1, &iocfg2);
 
     LOG_DEBUG("Ret: %d\n", ret);
 
